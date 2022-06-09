@@ -6,32 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./normalize.css">
     <link rel="stylesheet" href="./style.css">
-    <title>Les formulaire</title>
+    <title>la Calculatrice</title>
 </head>
 <body>
     <?php
     ?>
     <div>
-    <div class="title"><h2>FORM</h2></div>
+    <div class="title"><h2>calc</h2></div>
     <div class="title-underline"></div>
     </div>
 
     <form action="./index.php" class="form" method="GET">
         <div class="form-row">
-            <label for="name" class="form-label">name</label>
-            <input type="text" id="name" name="name" class="form-input">
+            <label for="num1" class="form-label">nombre</label>
+            <input type="number" id="num1" name="num1" class="form-input">
         </div>
         <div class="form-row">
-            <label for="age" class="form-label">age</label>
-            <input type="number" id="age" name="age" class="form-input">
+            <label for="num2" class="form-label">nombre2</label>
+            <input type="number" id="num2" name="num2" class="form-input">
         </div>
-        <button type="submit" class="btn btn-block">envoyer</button>
+        <button type="submit" class="btn btn-block">additionner</button>
     </form>
     <p>
-        Tu t'apelles <?php echo $_GET["name"]; ?>
+        <?php print_r($_GET); ?>
+        Cela fait <?= $_GET["num1"] + $_GET["num2"]; ?>
     </p>
-    <p>
-        Tu as <?php echo $_GET["age"]; ?> ans
-    </p>
+
 </body>
 </html>
