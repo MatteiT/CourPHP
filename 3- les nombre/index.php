@@ -17,3 +17,14 @@ echo "$mult <br>";
 echo "$div <br>";
 echo "$mod <br>";
 echo "$pow <br>";
+
+$number = 40;
+//$number = $number + 5
+$number += 5;
+$number += 5;
+$number += 5;
+$number += 5;
+$number += 5;
+$number += 5;
+
+echo $number;
