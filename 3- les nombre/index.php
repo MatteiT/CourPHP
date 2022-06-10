@@ -27,4 +27,18 @@ $number += 5;
 $number += 5;
 $number += 5;
 
-echo $number;
+echo "$number <br>";
+//  modulo = retourne le resdte d'une division
+
+$slices = 10;
+$children= 3; 
+
+$amount = $slices / $children;
+
+echo "$amount <br>";
+// prio des opérations
+$random = 4 + 6 + 10 * 10;
+$random2 = (4 + 6 + 10 )* 10;
+
+echo "$random <br>";
+echo "$random2 <br>";
