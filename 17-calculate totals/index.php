@@ -12,20 +12,19 @@ foreach($array as $value){
  $total += $value;
 }
 if($total > 100){
-    echo "tu depense trop";
+    echo "tu depense trop tu as depensé : $total ";
 }else{
-    echo "t'es dans le budget";
+    echo "t'es dans le budget tu as depensé : $total";
 }
- return $total;
+return;
 }
 
-echo calculateTotal($gas);
-
+echo  calculateTotal($gas);
+echo "<br>";
+echo "<br>";
 echo calculateTotal($food);
-
-echo "<pre>";
-print_r($newarray);
-echo "</pre>";
+echo "<br>";
 
 
-// si total supérieur à 100 mettre un message
+
+
