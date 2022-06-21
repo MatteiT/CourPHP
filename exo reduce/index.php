@@ -41,7 +41,7 @@ $survey = array_reduce($student, function($acc, $curritem2){
 if (array_key_exists($favoriteSubject, $acc)) {
     $acc[$favoriteSubject] += 1;
 }else {
-   $acc[$favoriteSubject] = 1;
+    $acc[$favoriteSubject] = 1;
 } 
 return $acc;},
 []);
