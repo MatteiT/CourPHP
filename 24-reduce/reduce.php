@@ -1,6 +1,5 @@
 <?php
-
-//* reduce
+//* array_reduce
 //* réduit l'array à une simple valeur - nombre, array
 //* itère aussi avec une fonction callback :
 //* 1er paramètre ('acc') - total de tous les calculs
@@ -13,14 +12,16 @@ $people = [
   ["name" => 'anna', "age" => 35, "job" => 'la boss', "salary" => 500],
 ];
 
-$total = array_reduce($people, function($acc, $curritem){
-// echo "total: $acc <br>";
-// echo "<pre>";
-// print_r($curritem);
-// echo "</pre>";
-echo "salaire : {$curritem["salary"]} <br>";
-$acc += $curritem["salary"];
-return $acc;
+//! il faut bien initialiser le type de la valeur initiale que l'on veut retourner dans le 2ème argument
+$total = array_reduce($people, function ($acc, $currItem) {
+  // echo "total : $acc <br>";
+  // echo "<pre>";
+  // print_r($currItem);
+  // echo "</pre>";
+  echo "salaire : {$currItem["salary"]} <br>";
+  $acc += $currItem["salary"];
+
+  return $acc;
 }, 0);
 
 echo $total;
