@@ -1,6 +1,6 @@
 <?php 
 session_start();
-if($_SESSION["who"]=== null){
+if(!isset ($_SESSION["who"])){
     die("Le paramètre name est manquant.");
 }
 
@@ -24,7 +24,7 @@ if($_SESSION["who"]=== null){
       <div class="title-underline"></div>
     </div>
     <form method="POST" class="form">
-      <p class="welcome">Bienvenue : Tristan</p>
+      <p class="welcome">Bienvenue : <?= $_SESSION["who"] ?> </p>
       <div class="form-row">
         <select name="human" class="form-input">
           <option value="-1">Sélectionner</option>

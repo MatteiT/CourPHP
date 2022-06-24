@@ -1,4 +1,5 @@
 <?php
+session_start();
 $message = '';
 $stored_hash = 'dddd5970b9fd8de3700b1db3cf7c8b2a';
 // var_dump(hash('md5',"XyZzy12\*\_php123"));
@@ -13,6 +14,7 @@ if(isset($_POST["who"]) && isset($_POST["pass"])){
     } 
     else if(hash('md5',"XyZzy12\*\_$pass") === $stored_hash)
     {
+        $_SESSION["who"] = $name;
         header("Location:./game.php");
     }
     
@@ -25,8 +27,6 @@ else{
         // }
     }
     
-    session_name($_POST["who"]);
-    session_start();
     
 ?>
 <!DOCTYPE html>
