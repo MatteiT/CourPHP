@@ -2,6 +2,46 @@
 session_start();
 if(!isset ($_SESSION["who"])){
     die("Le paramètre name est manquant.");
+}else{  $joueur = $_POST["value"];
+    $rngcpu = rand(1,3);
+
+    if ($rngcpu == 1) {
+    $rngcpu = "Pierre ";
+    }
+    if ($rngcpu == 2) {
+    $rngcpu = "PAPIER";
+    }
+    if ($rngcpu == 3) {
+    $rngcpu = "CISEAUX";
+    }
+
+    if ($rngcpu == $joueur) {
+    echo "Egalité";
+    if ($rngcpu == “ROCK” && $joueur == “PAPER”) {
+$winlossdraw = “WIN”;
+$wincount++;}
+
+if ($rngcpu == “PAPER” && $joueur == “SCISSORS”) {
+$winlossdraw = “WIN”;
+$wincount++;}
+
+if ($rngcpu == “SCISSORS” && $joueur == “ROCK”) {
+$winlossdraw = “WIN”;
+$wincount++;}
+
+if ($rngcpu == “SCISSORS” && $joueur == “PAPER”) {
+$winlossdraw = “LOSS”;
+$losscount++;}
+
+if ($rngcpu == “PAPER” && $joueur == “ROCK”) {
+$winlossdraw = “LOSS”;
+$losscount++;}
+
+if ($rngcpu == “ROCK” && $joueur == “SCISSORS”) {
+$winlossdraw = “LOSS”;
+$losscount++;}
+    }
+
 }
 
 
@@ -35,7 +75,7 @@ if(!isset ($_SESSION["who"])){
         </select>
       </div>
       <button type="submit" class="btn">jouer</button>
-      <button type="submit" name="logout" class="btn">se déconnecter</button>
+      <button type="submit" name="logout" class="btn" value="<?php// header("Location:./index.php") ?>" >se déconnecter</button>
     </form>
     <pre>
     Sélectionner une stratégie et appuyer sur Jouer  </pre>
