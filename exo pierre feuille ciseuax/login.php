@@ -16,9 +16,8 @@ if(isset($_POST["who"]) && isset($_POST["pass"])){
     {
         $_SESSION["who"] = $name;
         header("Location:./game.php");
-    }
-    
-else{
+        
+    }else{
     $message = "ce n'est pas le bon mot de pass ! ";
     // var_dump(hash('md5',"XyZzy12\*\_$pass"));
     }
@@ -26,8 +25,11 @@ else{
         // $message = "le nom d'utilisateur et mot de pass ne peuvent être que des chiffres";
         // }
     }
-    
-    
+
+if ( isset($_POST['cancel'])) {
+  header('Location: index.php');
+return;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

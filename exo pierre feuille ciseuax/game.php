@@ -1,49 +1,41 @@
 <?php 
 session_start();
+
 if(!isset ($_SESSION["who"])){
     die("Le paramètre name est manquant.");
-}else{  $joueur = $_POST["value"];
-    $rngcpu = rand(1,3);
+} 
 
-    if ($rngcpu == 1) {
-    $rngcpu = "Pierre ";
-    }
-    if ($rngcpu == 2) {
-    $rngcpu = "PAPIER";
-    }
-    if ($rngcpu == 3) {
-    $rngcpu = "CISEAUX";
-    }
+$joueur = $_POST["human"];
+$rngcpu = rand(0,2);
 
-    if ($rngcpu == $joueur) {
-    echo "Egalité";
-    if ($rngcpu == “ROCK” && $joueur == “PAPER”) {
-$winlossdraw = “WIN”;
-$wincount++;}
-
-if ($rngcpu == “PAPER” && $joueur == “SCISSORS”) {
-$winlossdraw = “WIN”;
-$wincount++;}
-
-if ($rngcpu == “SCISSORS” && $joueur == “ROCK”) {
-$winlossdraw = “WIN”;
-$wincount++;}
-
-if ($rngcpu == “SCISSORS” && $joueur == “PAPER”) {
-$winlossdraw = “LOSS”;
-$losscount++;}
-
-if ($rngcpu == “PAPER” && $joueur == “ROCK”) {
-$winlossdraw = “LOSS”;
-$losscount++;}
-
-if ($rngcpu == “ROCK” && $joueur == “SCISSORS”) {
-$winlossdraw = “LOSS”;
-$losscount++;}
-    }
-
+function check($rngcpu, $joueur){
+  if ($rngcpu == $joueur) {
+    return "Egalité";
+  }
+  else if ($rngcpu == 0 && $joueur == 1) {
+    return  "Gagné";
+  }
+  else if ($rngcpu == 1 && $joueur == 2) {
+    return "Gagné";
+  }
+  else if ($rngcpu == 2 && $joueur == 0) {
+    return  "Gagné";
+  }
+  else if  ($rngcpu == 2 && $joueur == 1) {
+    return  "Perdu";
+  } 
+  else if  ($rngcpu == 1 && $joueur == 0) {
+    return "Perdu";
+  }
+  else if  ($rngcpu == 0 && $joueur == 3) {
+    return  "Perdu";
+  }
 }
 
+if ( isset($_POST['logout']) ) {
+  header('Location: index.php');
+  return;
+}
 
 ?>
 
@@ -74,11 +66,20 @@ $losscount++;}
           <option value="3">Test</option>
         </select>
       </div>
-      <button type="submit" class="btn">jouer</button>
-      <button type="submit" name="logout" class="btn" value="<?php// header("Location:./index.php") ?>" >se déconnecter</button>
+      <button name="submit" type="submit" class="btn">jouer</button>
+      <button type="submit" name="logout" class="btn">se déconnecter</button>
     </form>
-    <pre>
-    Sélectionner une stratégie et appuyer sur Jouer  </pre>
+   <pre>
+<?php
+if(isset($_POST["submit"])){
+  $result = check($rngcpu, $joueur);
+  $tab = ["Pierre", "Papier", "Ciseaux"];
+  print "Vous avez fait $tab[$joueur] l'ordi a fait $tab[$rngcpu] c'est $result";
+}else{
+    print "Sélectionner une stratégie et appuyer sur Jouer <br>";
+}
+?>
+</pre>
   </section>
   </section>
 </body>
