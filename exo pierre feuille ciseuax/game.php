@@ -11,23 +11,17 @@ $rngcpu = rand(0,2);
 function check($rngcpu, $joueur){
   if ($rngcpu == $joueur) {
     return "Egalité";
-  }
-  else if ($rngcpu == 0 && $joueur == 1) {
+  }else if ($rngcpu == 0 && $joueur == 1) {
     return  "Gagné";
-  }
-  else if ($rngcpu == 1 && $joueur == 2) {
+  }else if ($rngcpu == 1 && $joueur == 2) {
     return "Gagné";
-  }
-  else if ($rngcpu == 2 && $joueur == 0) {
+  }else if ($rngcpu == 2 && $joueur == 0) {
     return  "Gagné";
-  }
-  else if  ($rngcpu == 2 && $joueur == 1) {
+  }else if  ($rngcpu == 2 && $joueur == 1) {
     return  "Perdu";
-  } 
-  else if  ($rngcpu == 1 && $joueur == 0) {
+  } else if  ($rngcpu == 1 && $joueur == 0) {
     return "Perdu";
-  }
-  else if  ($rngcpu == 0 && $joueur == 3) {
+  }else if  ($rngcpu == 0 && $joueur == 2) {
     return  "Perdu";
   }
 }
@@ -75,10 +69,10 @@ if(isset($_POST["submit"])){
   $result = check($rngcpu, $joueur);
   $tab = ["Pierre", "Papier", "Ciseaux"];
   echo "Vous avez fait $tab[$joueur] l'ordi a fait $tab[$rngcpu] c'est $result";
-}
-if( $joueur == -1 ){
+}else{
   echo "Sélectionner une stratégie et appuyer sur Jouer <br>";
-}else if( $joueur == 3 ) {
+}
+if($joueur == 3) {
   for($rngcpu=0;$rngcpu<3;$rngcpu++) {
       for($joueur=0;$joueur<3;$joueur++) {
           $result = check($rngcpu, $joueur);
@@ -87,8 +81,7 @@ if( $joueur == -1 ){
           echo "</pre>";
           }
         }
-      }
-
+}
 ?>
 </pre>
   </section>
