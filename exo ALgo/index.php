@@ -2,7 +2,7 @@
 
 $a = 7;
 $b= 61;
-$a=$b;
+
 
 
 // La moyenne
@@ -157,13 +157,16 @@ function numberpush($array, $number2){
     return $array;
 }
 echo "<br>";
+var_dump($array);
 var_dump(numberpush($array, $number3));
 
 // 16.
 function numbersupr($array){
-    array_slice($array, $array[5] );
+    array_splice($array, 5);
     return($array);
+    
 }
+var_dump($array);
 echo "<br>";
 var_dump(numbersupr($array));
 
@@ -200,9 +203,8 @@ function rando(){
     if(array_key_exists(42, $rand)){
         echo "le numero 42 existe";
     }else{
-        echo "le chiffre n'existe pas dans le tableau";
+        echo "le chiffre 42 n'existe pas dans le tableau";
     }
-    
     return $rand;
 }
 
