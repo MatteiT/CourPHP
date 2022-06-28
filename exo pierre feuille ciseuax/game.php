@@ -5,7 +5,7 @@ if(!isset ($_SESSION["who"])){
     die("Le paramètre name est manquant.");
 } 
 
-$joueur = $_POST["human"];
+$joueur = $_POST["human"] ?? "";
 $rngcpu = rand(0,2);
 
 function check($rngcpu, $joueur){
@@ -74,10 +74,21 @@ if ( isset($_POST['logout']) ) {
 if(isset($_POST["submit"])){
   $result = check($rngcpu, $joueur);
   $tab = ["Pierre", "Papier", "Ciseaux"];
-  print "Vous avez fait $tab[$joueur] l'ordi a fait $tab[$rngcpu] c'est $result";
-}else{
-    print "Sélectionner une stratégie et appuyer sur Jouer <br>";
+  echo "Vous avez fait $tab[$joueur] l'ordi a fait $tab[$rngcpu] c'est $result";
 }
+if( $joueur == -1 ){
+  echo "Sélectionner une stratégie et appuyer sur Jouer <br>";
+}else if( $joueur == 3 ) {
+  for($rngcpu=0;$rngcpu<3;$rngcpu++) {
+      for($joueur=0;$joueur<3;$joueur++) {
+          $result = check($rngcpu, $joueur);
+          echo "<pre>";
+          print_r( "Human=$tab[$joueur] Computer=$tab[$rngcpu] Result=$result \n");
+          echo "</pre>";
+          }
+        }
+      }
+
 ?>
 </pre>
   </section>
