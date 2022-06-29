@@ -180,7 +180,7 @@ var_dump(numberpush($array, $number3));
 
 //! 16.
 function numbersupr($array){
-    array_splice($array, 5);
+    array_splice($array, 4, 0);
     return($array);
     
 }
@@ -218,7 +218,7 @@ function rando(){
     for ($i=0; $i<=10 ; $i++) {
         array_push($rand, rand(0,100));
     }
-    if(array_key_exists(42, $rand)){
+    if(in_array(42, $rand)){
         echo "le numero 42 existe";
     }else{
         echo "le chiffre 42 n'existe pas dans le tableau";
