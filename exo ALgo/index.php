@@ -1,11 +1,11 @@
 <?php 
-
+// !1.
 $a = 7;
 $b= 61;
+[$a, $b]= [$b , $a];
 
 
-
-// La moyenne
+//! La moyenne
 
 $note_maths = 15;
 $note_francais = 12;
@@ -15,15 +15,15 @@ echo "<br>";
 echo 'La moyenne est de '.$moyenne.' / 20.';
 echo "<br>";
 
-//  prix ttc
+//!  prix ttc
 
 $prix_ht = 50;
 $tva = 20;
-$prix_ttc = $prix_ht * ($tva / 100);
+$prix_ttc = $prix_ht * (1 + $tva / 100);
 echo "<br>";
 echo 'Le prix TTC du produit est de '.$prix_ttc.' €.';
 echo "<br>";
-// 4.
+//! 4.
 
 $sexe = "male" ;
 if($sexe === "male"){
@@ -34,7 +34,7 @@ if($sexe === "male"){
     echo " je suis autre";
 }
 echo "<br>";
-// 5.
+//! 5.
 
 $age = 31;
 if ($age < 18){
@@ -44,7 +44,7 @@ if ($age < 18){
 }
 echo "<br>";
 
-// 6.
+//! 6.
 function check($numbers){
     if($numbers>0){
         return true;
@@ -57,28 +57,28 @@ $number = -20;
 var_dump( check($number));
 echo "<br>";
 
-// 7.
-// function suite(){
-//     for($i=0; $i<=10; $i++){
-//     echo "$i\n";}
-// }
-// print_r(suite());
-// echo "<br>";
-
-
-// 8.
-$i = 0;
-while($i <= 20) {
-    if($i == 10) {
-    echo '<strong>'.$i.'</strong>';
-    } else {
-    echo $i;
+//! 7.
+function suite($num){
+    for($i=0; $i<=10; $i++){
+    echo $num + $i . "<br>";
     }
-echo '<br />';
-$i = $i + 2;
 }
+$num = 7;
+print_r(suite($num));
+echo "<br>";
 
-// 9.
+
+//! 8.
+function sum($num){
+$total =0;
+    for($i=1; $i <=$num; $i++){
+        $total = $total + $i;
+    }
+    return $total;
+}
+echo sum(5);
+
+//! 9.
 echo "<br>";
 $num = 8;  
 $factorial = 1;  
@@ -86,17 +86,33 @@ for ($x=$num; $x>=1; $x--)
 {  
   $factorial = $factorial * $x;  
 }  
+echo "<br>";
 echo "Factorial of $num is $factorial \n"; 
 echo "<br>";
+echo "<br>";
 
-// 10
-// $i=77000;
-// while($i <= 77999){
-//     echo"<br>";
-//     echo $i++;
-// }
+function facto($num){
+    if($num <=1){
+        return $num;
+    }
+    return $num * facto($num -1);
+}
+echo "<br>";
 
-// 11.
+echo facto(8);
+
+echo "<br>";
+
+//! 10
+echo "<br>";
+$i=77000;
+while($i <= 77999){
+    echo" , ";
+    echo $i++;
+}
+echo "<br>";
+
+//! 11.
 echo "<br>";
 $x=7;
 
@@ -112,7 +128,7 @@ echo table($x);
 echo "</pre>";
 echo "<br>";
 
-// 12
+//! 12
 function pyr(){
 for ($i=1; $i <10; $i++) { 
     for ($x=1; $x <= $i; $x++) { 
@@ -123,19 +139,21 @@ echo "<br>";
 }
 echo pyr();
 
-// 13.
+//! 13.
 echo "<br>";
 echo "<br>";
-$a = 0;
-
-for ($a=0; $a<=20 ; $a+=2) {
-    if($a == 10){
-        echo "<h1> $a </h1>";
-    }else{echo $a; }
+$i = 0;
+while($i <= 20) {
+    if($i == 10) {
+        echo '<strong>'.$i.'</strong>';
+    } else {
+        echo $i;
+    }
+echo '<br />';
+$i += 2;
 }
-echo "<br>";
 
-// 14
+//! 14
 
 $name = ["bob", "tom", "susy"];
 
@@ -146,7 +164,7 @@ echo "<br>";
 echo name($name);
 echo "<br>";
 
-// 15.
+//! 15.
 
 $array = [
     1, 2 , 3, 4, 5 , 6
@@ -160,7 +178,7 @@ echo "<br>";
 var_dump($array);
 var_dump(numberpush($array, $number3));
 
-// 16.
+//! 16.
 function numbersupr($array){
     array_splice($array, 5);
     return($array);
@@ -170,7 +188,7 @@ var_dump($array);
 echo "<br>";
 var_dump(numbersupr($array));
 
-// 17.
+//! 17.
 
 function numbersum($array){
     return (array_sum($array));
@@ -178,7 +196,7 @@ function numbersum($array){
 echo "<br>";
 var_dump(numbersum($array));
 
-// 18.
+//! 18.
 
 $capitals = [
     "France" => "Paris",
@@ -193,7 +211,7 @@ foreach($capitals as $value ){
     echo "<br>";
 }
 
-// 19.
+//! 19.
 
 function rando(){
     $rand = [];
@@ -212,7 +230,7 @@ echo "<pre>";
 var_dump(rando());
 echo "</pre>";
 
-// 20.
+//! 20.
 
 $pays_population = array(
     'France' => 67595000,
@@ -231,7 +249,7 @@ echo "<pre>";
 print_r(array_filter($pays_population, "UpPop"));
 echo "</pre>";
 
-// 21.
+//! 21.
 $pays_population2 = array(
     'France' => 67595000,
     'Suede' => 9998000,
