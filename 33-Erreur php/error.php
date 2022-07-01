@@ -9,6 +9,8 @@ try {
   ]);
 } catch (Exception $e) {
 echo "problème : " . $e->getMessage();
+return;
+exit();
 }
 
 $row =$stmt->fetch(PDO::FETCH_ASSOC);
