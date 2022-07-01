@@ -1,35 +1,30 @@
 <?php
 require_once("PDO.php");
 
-$stmt= $pdo->query("SELECT * FROM users");
-$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 if(isset($_POST["name"]) && isset($_POST["email"]) && isset($_POST["password"])) {
 $sql = "INSERT INTO users(name, email,password) VALUE (:name, :email, :password)";
-
 echo ("<pre>" . $sql . "</pre>");
-
 $stat = $pdo->prepare($sql);
-
 $stat->execute([
     ":name"=>$_POST["name"],
     ":email"=>$_POST["email"],
     ":password"=>$_POST["password"],
-]);}
-
-if(isset($_POST["delete"])){
-$delete = "DELETE FROM users WHERE user_id = :user_id";
-$del= $pdo->prepare($delete);
-
-    echo ("<pre>" . $delete . "</pre>");
-
-$del->execute([
-    "user_id"=> $_POST["user_id"]
-])
-//! $del=$pdo->prepare("DELETE FROM users WHERE id=?")->execute(["user_id"]);
-//! respect de l'ordre des points d'interrogations dans les valeurs 
-;
+]);
 }
 
+if(isset($_POST["delete"])){
+    $delete = "DELETE FROM users WHERE user_id = :user_id";
+$del= $pdo->prepare($delete);
+$del->execute([
+    "user_id"=> $_POST["user_id"]
+    ])
+    ;
+}
+$stmt= $pdo->query("SELECT * FROM users");
+$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// !faire une PAGE UPDATE.PHP pour modifier les infos
+//! $del=$pdo->prepare("DELETE FROM users WHERE id=?")->execute(["user_id"]);
+//! respect de l'ordre des points d'interrogations dans les valeurs 
 ?>
 
 <!DOCTYPE html>
