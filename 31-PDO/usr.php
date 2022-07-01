@@ -1,4 +1,7 @@
 <?php
+session_start();
+
+
 require_once("PDO.php");
 
 if(isset($_POST["name"]) && isset($_POST["email"]) && isset($_POST["password"])) {
@@ -20,11 +23,26 @@ $del->execute([
     ])
     ;
 }
+
+if(isset($_POST["update"])){
+$sql = "SELECT * FROM users WHERE user_id = :user_id";
+echo ("<pre>" . $sql . "</pre>");
+$stat = $pdo->prepare($sql);
+$stat->execute([
+    ":user_id"=>$_POST["user_id"],
+]);
+$user= $stat->fetch(PDO::FETCH_ASSOC);
+$_SESSION["user"]=$user;
+header('Location: update.php');
+}
+
 $stmt= $pdo->query("SELECT * FROM users");
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-// !faire une PAGE UPDATE.PHP pour modifier les infos
 //! $del=$pdo->prepare("DELETE FROM users WHERE id=?")->execute(["user_id"]);
 //! respect de l'ordre des points d'interrogations dans les valeurs 
+// $_SESSION["name"]=$_POST["name"];
+// $_SESSION["email"]=$_POST["email"];
+// $_SESSION["password"]=$_POST["password"];
 ?>
 
 <!DOCTYPE html>
@@ -48,9 +66,10 @@ $tab = <<<TACOS
         <form method="POST">
             <input type="hidden" name="user_id" value="{$row["user_id"]}">
             <input type="submit" name="delete" value="supprimer">
+            <input type="submit" name="update" value="update">
             </form>
         </td>
-    </tr>
+        </tr>
 TACOS;
 echo $tab;
 }
