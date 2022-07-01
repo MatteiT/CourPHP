@@ -13,12 +13,15 @@ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // echo "<pre>";
 // print_r($rows);
 // echo "</pre>";
+
 echo "<table border='1'>";
 foreach($rows as $row){
-echo "<tr><td>";
-echo $row["name"];
-echo "</td><td>";
-echo $row["email"];
-echo "</tr></td>";
+$tab = <<<TACOS
+    <tr>
+        <td>{$row['name']}</td>
+        <td>{$row['email']}</td>
+    </tr>
+TACOS;
+echo $tab;
 }
 echo "</table>";
