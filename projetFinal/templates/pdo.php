@@ -15,3 +15,5 @@ $pdo= new PDO($dsn, $user, $password);
 echo "exception message:" . $e->getMessage();
 }
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+
