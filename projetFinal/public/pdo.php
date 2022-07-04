@@ -3,7 +3,7 @@
 $host= "localhost";
 $user="root";
 $password = "";
-$dbname = "people";
+$dbname = "todo_app";
 
 //  definir le DSN 
 $dsn = "mysql:host=$host;dbname=$dbname";
