@@ -1,8 +1,7 @@
 <?php 
-session_start();
 require_once("PDO.php");
+$message=null;
 if (isset($_POST["register"]) && isset($_POST['name']) && isset($_POST['password']) && isset($_POST['password2'])){
-
 $sql = "INSERT INTO users (name, password) VALUE (:name, :password)";
 $stmt = $pdo->prepare($sql);
 $stmt->execute([
@@ -44,6 +43,15 @@ $message = "Bravo vous êtes enregistré !!";
 <button type="submit" class="btn btn-primary btn-block mb-4" name="register">S'enregister</button>
 </div>
 </form>
-<div class="alert alert-success" role="alert"><?php echo $message?></div>
+<div id="alert" class="alert alert-">
+    <?php
+if(isset($message)){
+    
+    echo "$message";
+}
+?>
+</div>
+<a href="./home.php"> Retour Home page</a>
+</div>
 </body>
 </html>

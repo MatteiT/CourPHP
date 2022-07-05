@@ -1,6 +1,7 @@
 <?php 
 session_start();
 require_once("PDO.php");
+require_once("QuerySQL.php");
 
 echo '<pre>';
 print_r($_SESSION);
