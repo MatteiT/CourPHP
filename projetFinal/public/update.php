@@ -6,19 +6,23 @@ var_dump($_SESSION);
 
 
 if(isset($_POST["update"])){
+    if(strlen($_POST["task"])>0){
     $sql = "UPDATE tasks SET title=:title WHERE task_id=:task_id";
     echo ("<pre>" . $sql . "</pre>");
     $stat = $pdo->prepare($sql);
     $stat->execute([
         ":title"=>$_POST["task"],
         ":task_id"=>$_SESSION["task_id"],
-]);
-
-
-
+]);   
     header("Location: app.php");
     return;
+    }else{
+        $_SESSION['error'] = "Tous les champs sont requis";
+        header("Location: update.php?todos_id=".$_REQUEST['id']);
+        return;
 }
+}
+
 
 $stmt = $pdo->prepare("SELECT * FROM tasks WHERE task_id = :task_id");
 $stmt->execute([

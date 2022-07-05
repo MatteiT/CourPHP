@@ -16,13 +16,20 @@ if(isset($_POST["submit"]))
     }
 }
 
-if (isset($_POST["delete"])) {
+if (isset($_POST["confirm"])) {
     $sql = "DELETE FROM tasks WHERE task_id= :id";
     echo "<pre>\n$sql\n</pre>";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
-        ":id" => $_POST["task_id"]
+        ":id" => $_SESSION["task_id"]
     ]);
+    $_SESSION['supr']= "votre Tache est supprimé ! ";
+    header("Location: app.php");
+    return;
+}
+
+if(isset($_POST["cancel"])){
+    header("Location: app.php");
 }
 
 if (isset($_POST["update"]) && isset($_POST["task_id"])) {
