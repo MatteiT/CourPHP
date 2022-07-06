@@ -3,10 +3,9 @@ session_start();
 
 require_once("PDO.php");
 
-// var_dump($_POST);
 
 if(isset($_POST["submit"])){
-    if(!empty($_POST['name']) && !empty($_POST['password'])){
+    if((!empty($_POST['name'])) && !empty($_POST['password'])){
         $sql = "SELECT * FROM users WHERE name=:name AND password=:password";
         $stat = $pdo->prepare($sql);
         $stat->execute([
@@ -15,12 +14,15 @@ if(isset($_POST["submit"])){
         ]);
         $user= $stat->fetch(PDO::FETCH_ASSOC);
         $_SESSION["user"]=$user;
+        if($_SESSION['user']=== false){
+            $_GET['fail']= "L'utilisateur ou le mot de pass n'existe pas !";
+        }else{
         header('Location: app.php');
+        }
     }else{
-           $_SESSION['error']= "Vous devez remplir les champs ! ";
+           $_GET['error']= "Vous devez remplir les champs ! ";
         }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -43,28 +45,30 @@ if(isset($_POST["submit"])){
             <h2 class="text-uppercase text-center mb-5">Vous Connecter</h2>
 
             <?php
-            if (isset($_SESSION['error'])) {
-            echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
-            unset($_SESSION['error']);
-            }
+                if (isset($_GET['error'])) {
+                    echo('<p style="color: red;">'.htmlentities($_GET['error'])."</p>\n");
+                    unset($_GET['error']);
+                }
+                if (isset($_GET['fail'])) {
+                    echo('<p style="color: red;">'.htmlentities($_GET['fail'])."</p>\n");
+                    unset($_GET['fail']);
+                }
             ?>
-            <form method="POST">
+                <form method="POST">
 
                 <div class="form-outline mb-4">
-
-                <input  type="text" id="form3Example1cg" class="form-control form-control-lg" name="name"/>
-                <label class="form-label" for="form3Example1cg">Votre nom</label>
+                    <input  type="text" id="form3Example1cg" class="form-control form-control-lg" name="name"/>
+                    <label class="form-label" for="form3Example1cg">Votre nom</label>
                 </div>
 
                 <div class="form-outline mb-4">
-
-                <input type="password" id="form3Example4cg" class="form-control form-control-lg" name="password"  />
-                <label class="form-label" for="form3Example4cg">Votre mot de pass</label>
+                    <input type="password" id="form3Example4cg" class="form-control form-control-lg" name="password" />
+                    <label class="form-label" for="form3Example4cg">Votre mot de pass</label>
 
                 </div>
 
-                <button type="submit" name="submit">Se connecter>
-            </form>
+                    <button type="submit" name="submit">Se connecter</button>
+                </form>
             </div>
         </div>
         </div>
@@ -73,7 +77,7 @@ if(isset($_POST["submit"])){
 </div>
 </section>
 </div>
-<a href="./home.php"> Retour Home page</a>
+   <button> <a href="./home.php"> Retour Home page</a></button>
 </div>
 </body>
 </html>

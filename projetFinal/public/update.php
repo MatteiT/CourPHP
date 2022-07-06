@@ -6,30 +6,34 @@ var_dump($_SESSION);
 
 
 if(isset($_POST["update"])){
-    if(strlen($_POST["task"])>0){
-    $sql = "UPDATE tasks SET title=:title WHERE task_id=:task_id";
-    echo ("<pre>" . $sql . "</pre>");
-    $stat = $pdo->prepare($sql);
-    $stat->execute([
-        ":title"=>$_POST["task"],
-        ":task_id"=>$_SESSION["task_id"],
-]);   
-    header("Location: app.php");
-    return;
+    if(!empty(trim($_POST["task"])))
+    {
+      $sql = "UPDATE tasks SET title=:title WHERE task_id=:task_id";
+        echo ("<pre>" . $sql . "</pre>");
+      $stat = $pdo->prepare($sql);
+      $stat->execute([
+          ":title"=>$_POST["task"],
+          ":task_id"=>$_SESSION["task_id"],
+          ]);  
+          
+      $_SESSION['modd'] = "La Tache est modifiée";
+      unset($_SESSION['task_id']);
+      header("Location: app.php");
+      return;
     }else{
-        $_SESSION['error'] = "Tous les champs sont requis";
-        header("Location: update.php?todos_id=".$_REQUEST['id']);
-        return;
+      $_SESSION['error'] = "Tous les champs sont requis";
+      header("Location: update.php?todos_id=".$_REQUEST['id']);
+      return;
+    }
 }
-}
-
 
 $stmt = $pdo->prepare("SELECT * FROM tasks WHERE task_id = :task_id");
 $stmt->execute([
   ":task_id" => $_SESSION["task_id"]
-]);
+  ]);
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 var_dump($row);
+
 ?>
 
 <!DOCTYPE html>
@@ -43,10 +47,10 @@ var_dump($row);
 <body>
     <p>Modifier une Tache</p>
 <?php  
-if(isset($_SESSION['error'])){
-  echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
-  unset($_SESSION['error']);
-}
+  if(isset($_SESSION['error'])){
+    echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
+    unset($_SESSION['error']);
+    }
 ?>
 
 <form method="post">

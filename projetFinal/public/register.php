@@ -1,25 +1,41 @@
 <?php 
 require_once("PDO.php");
-$message=null;
 
-if (isset($_POST["register"])){ 
-    
+if (isset($_POST["register"])){     
     if(!empty($_POST['name']) && !empty($_POST['password']) && !empty($_POST['password2']))
     {
-        if(($_POST["password"])===($_POST["password2"])){
-            $sql = "INSERT INTO users (name, password) VALUE (:name, :password)";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([
-            ":name" => $_POST["name"],
-            ":password" => $_POST["password"],
+        if(($_POST["password"])===($_POST["password2"]))
+        {
+            $sql = "SELECT * FROM users WHERE name=:name AND password=:password";
+            $stat = $pdo->prepare($sql);
+            $stat->execute([
+                ":name" => $_POST['name'],
+                ":password"=> $_POST['password'],
             ]);
-            $message = "Bravo vous êtes enregistré !!";
+            $user= $stat->fetch(PDO::FETCH_ASSOC);
+            $_SESSION["user"]=$user;
+
+            if($_SESSION['user']=== false)
+            {
+                $sql = "INSERT INTO users (name, password) VALUE (:name, :password)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                ":name" => $_POST["name"],
+                ":password" => $_POST["password"],
+                ]);
+                session_start();
+                $_SESSION['register']= "Felicitation pour votre insciption Bienvenue dans la TODO APP !";
+                header("Location: app.php");
+                exit();
+            }else{
+                    $_GET['error']= "L'utilisateur existe déjà dans la base de données";
+                }       
         }else{
-        $message2 = "Les Mots de Pass ne sont pas les même !";
-        }
+                $_GET['error'] = "Les Mots de Pass ne sont pas les même !";   
+            }
     }else{
-        $message2 = "Les champs ne sont pas remplis";
-}
+        $_GET['error'] = "Les champs ne sont pas remplis";
+    }
 }
 
 ?>
@@ -53,13 +69,9 @@ if (isset($_POST["register"])){
 <button type="submit" class="btn btn-primary btn-block mb-4" name="register">S'enregister</button>
 </div>
 <?php
-    if (isset($message)) {
-    echo('<p style="color: green;">'.htmlentities($message)."</p>\n");
-    unset($message);
-    }
-    if (isset($message2)) {
-    echo('<p style="color: red;">'.htmlentities($message2)."</p>\n");
-    unset($message2);
+    if (isset($_GET['error'])) {
+    echo('<p style="color: red;">'.htmlentities($_GET['error'])."</p>\n");
+    unset($_GET['error']);
     }
 ?>
 </form>

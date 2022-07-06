@@ -2,30 +2,31 @@
 
 if(isset($_POST["submit"]))
 {
-    if(!empty($_POST["task"])){
-    $sql = "INSERT INTO tasks (title, user_id) VALUE (:title, :user_id)";
-    echo ("<pre>" . $sql . "</pre>");
-    $stat = $pdo->prepare($sql);
-    $stat->execute([
-        ":title" => $_POST['task'],
-        ":user_id" => $_SESSION['user']['user_id'],
-    ]);
+    if(!empty(($_POST["task"]))){
+        $sql = "INSERT INTO tasks (title, user_id) VALUE (:title, :user_id)";
+        echo ("<pre>" . $sql . "</pre>");
+        $stat = $pdo->prepare($sql);
+        $stat->execute([
+            ":title" => $_POST['task'],
+            ":user_id" => $_SESSION['user']['user_id'],
+        ]);
+        $_GET['succès'] = "Felicitations encore une chose de plus à faire";
     }else{
-        $_SESSION['error'] = "Tous les champs sont requis";
+        $_GET['error'] = "Le Champ est vide !!";
         return;
     }
 }
 
-if (isset($_POST["confirm"])) {
-    $sql = "DELETE FROM tasks WHERE task_id= :id";
-    echo "<pre>\n$sql\n</pre>";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        ":id" => $_SESSION["task_id"]
-    ]);
-    $_SESSION['supr']= "votre Tache est supprimé ! ";
-    header("Location: app.php");
-    return;
+if (isset($_POST["delete"])) {
+        $sql = "DELETE FROM tasks WHERE task_id= :id";
+        echo "<pre>\n$sql\n</pre>";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ":id" => $_POST["task_id"]
+        ]);
+        $_SESSION['supr']= "votre Tache est supprimé ! ";
+        header("Location: app.php");
+        return;
 }
 
 if(isset($_POST["cancel"])){
