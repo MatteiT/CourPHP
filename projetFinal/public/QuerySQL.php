@@ -2,7 +2,7 @@
 
 if(isset($_POST["submit"]))
 {
-    if(strlen($_POST["task"])>0){
+    if(!empty($_POST["task"])){
     $sql = "INSERT INTO tasks (title, user_id) VALUE (:title, :user_id)";
     echo ("<pre>" . $sql . "</pre>");
     $stat = $pdo->prepare($sql);

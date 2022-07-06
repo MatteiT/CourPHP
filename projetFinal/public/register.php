@@ -1,16 +1,26 @@
 <?php 
 require_once("PDO.php");
 $message=null;
-if (isset($_POST["register"]) && isset($_POST['name']) && isset($_POST['password']) && isset($_POST['password2'])){
-$sql = "INSERT INTO users (name, password) VALUE (:name, :password)";
-$stmt = $pdo->prepare($sql);
-$stmt->execute([
-":name" => $_POST["name"],
-":password" => $_POST["password"],
-]);
-$message = "Bravo vous êtes enregistré !!";
-}
 
+if (isset($_POST["register"])){ 
+    
+    if(!empty($_POST['name']) && !empty($_POST['password']) && !empty($_POST['password2']))
+    {
+        if(($_POST["password"])===($_POST["password2"])){
+            $sql = "INSERT INTO users (name, password) VALUE (:name, :password)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+            ":name" => $_POST["name"],
+            ":password" => $_POST["password"],
+            ]);
+            $message = "Bravo vous êtes enregistré !!";
+        }else{
+        $message2 = "Les Mots de Pass ne sont pas les même !";
+        }
+    }else{
+        $message2 = "Les champs ne sont pas remplis";
+}
+}
 
 ?>
 <!DOCTYPE html>
@@ -42,14 +52,18 @@ $message = "Bravo vous êtes enregistré !!";
 <!-- Submit button -->
 <button type="submit" class="btn btn-primary btn-block mb-4" name="register">S'enregister</button>
 </div>
+<?php
+    if (isset($message)) {
+    echo('<p style="color: green;">'.htmlentities($message)."</p>\n");
+    unset($message);
+    }
+    if (isset($message2)) {
+    echo('<p style="color: red;">'.htmlentities($message2)."</p>\n");
+    unset($message2);
+    }
+?>
 </form>
 <div id="alert" class="alert alert-">
-    <?php
-if(isset($message)){
-    
-    echo "$message";
-}
-?>
 </div>
 <a href="./home.php"> Retour Home page</a>
 </div>

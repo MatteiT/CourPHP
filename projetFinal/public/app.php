@@ -3,7 +3,6 @@ session_start();
 require_once("PDO.php");
 require("QuerySQL.php");
 if(!isset($_SESSION['user'])){
-
     die("accès refusé");
 }else{
     var_dump($_SESSION);
@@ -88,5 +87,7 @@ echo $tab;
 echo "</table>";
 ?>
     </section>
+<button>
+    <a href="home.php">Retour Page Accueil</a></button>
 </body>
 </html>

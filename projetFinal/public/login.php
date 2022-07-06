@@ -1,19 +1,24 @@
 <?php  
 session_start();
+
 require_once("PDO.php");
 
-var_dump($_POST);
+// var_dump($_POST);
 
 if(isset($_POST["submit"])){
-$sql = "SELECT * FROM users WHERE name=:name AND password=:password";
-$stat = $pdo->prepare($sql);
-$stat->execute([
-    ":name" => $_POST['name'],
-    ":password"=> $_POST['password'],
-]);
-$user= $stat->fetch(PDO::FETCH_ASSOC);
-$_SESSION["user"]=$user;
-header('Location: app.php');
+    if(!empty($_POST['name']) && !empty($_POST['password'])){
+        $sql = "SELECT * FROM users WHERE name=:name AND password=:password";
+        $stat = $pdo->prepare($sql);
+        $stat->execute([
+            ":name" => $_POST['name'],
+            ":password"=> $_POST['password'],
+        ]);
+        $user= $stat->fetch(PDO::FETCH_ASSOC);
+        $_SESSION["user"]=$user;
+        header('Location: app.php');
+    }else{
+           $_SESSION['error']= "Vous devez remplir les champs ! ";
+        }
 }
 
 ?>
@@ -35,9 +40,14 @@ header('Location: app.php');
         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
         <div class="card" style="border-radius: 15px;">
             <div class="card-body p-5">
-            <h2 class="text-uppercase text-center mb-5">Creer un compte</h2>
+            <h2 class="text-uppercase text-center mb-5">Vous Connecter</h2>
 
-
+            <?php
+            if (isset($_SESSION['error'])) {
+            echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
+            unset($_SESSION['error']);
+            }
+            ?>
             <form method="POST">
 
                 <div class="form-outline mb-4">
@@ -62,5 +72,8 @@ header('Location: app.php');
     </div>
 </div>
 </section>
+</div>
+<a href="./home.php"> Retour Home page</a>
+</div>
 </body>
 </html>
