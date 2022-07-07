@@ -48,7 +48,9 @@ var_dump($row);
     <p>Modifier une Tache</p>
 <?php  
   if(isset($_SESSION['error'])){
+    echo('<div id="alert" class="alert alert-danger" role="alert">');
     echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
+    echo('</div>');
     unset($_SESSION['error']);
     }
 ?>

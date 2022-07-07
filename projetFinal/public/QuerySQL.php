@@ -1,5 +1,6 @@
 <?php 
 
+
 if(isset($_POST["submit"]))
 {
     if(!empty(($_POST["task"]))){
@@ -24,7 +25,7 @@ if (isset($_POST["delete"])) {
         $stmt->execute([
             ":id" => $_POST["task_id"]
         ]);
-        $_SESSION['supr']= "votre Tache est supprimé ! ";
+        $_GET['supr']= "votre Tache est supprimé ! ";
         header("Location: app.php");
         return;
 }
@@ -38,5 +39,5 @@ if (isset($_POST["update"]) && isset($_POST["task_id"])) {
     header("Location: ./update.php");
 }
 
-$stmt= $pdo->query("SELECT * FROM tasks");
+$stmt= $pdo->query("SELECT * FROM tasks WHERE user_id={$_SESSION['user']['user_id']}");
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);

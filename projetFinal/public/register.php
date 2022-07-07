@@ -1,35 +1,40 @@
 <?php 
 require_once("PDO.php");
 
+
 if (isset($_POST["register"])){     
     if(!empty($_POST['name']) && !empty($_POST['password']) && !empty($_POST['password2']))
     {
         if(($_POST["password"])===($_POST["password2"]))
         {
+            $password=htmlentities($_POST['password']);
+            $password2=htmlentities($_POST['password2']); 
+            $hashedpassword= password_hash($password,  PASSWORD_DEFAULT);
+            $name=htmlentities($_POST['name']);
+
             $sql = "SELECT * FROM users WHERE name=:name AND password=:password";
             $stat = $pdo->prepare($sql);
             $stat->execute([
-                ":name" => $_POST['name'],
-                ":password"=> $_POST['password'],
+                ":name" => $name,
+                ":password"=> $password,
             ]);
             $user= $stat->fetch(PDO::FETCH_ASSOC);
             $_SESSION["user"]=$user;
 
-            if($_SESSION['user']=== false)
-            {
-                $sql = "INSERT INTO users (name, password) VALUE (:name, :password)";
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute([
-                ":name" => $_POST["name"],
-                ":password" => $_POST["password"],
-                ]);
-                session_start();
-                $_SESSION['register']= "Felicitation pour votre insciption Bienvenue dans la TODO APP !";
-                header("Location: app.php");
-                exit();
-            }else{
-                    $_GET['error']= "L'utilisateur existe déjà dans la base de données";
-                }       
+                if($user=== false)
+                {            
+                    $sql = "INSERT INTO users (name, password) VALUE (:name, :password)";
+                    $stmt = $pdo->prepare($sql);
+                    $stmt->execute([
+                    ":name" => $name,
+                    ":password" => $hashedpassword,
+                    ]);
+                    $_SESSION['register']= "Felicitation pour votre insciption Bienvenue dans la TODO APP !";
+                    header("Location: login.php");
+                    exit();
+                }else{
+                        $_GET['error']= "L'utilisateur existe déjà dans la base de données";
+                    }       
         }else{
                 $_GET['error'] = "Les Mots de Pass ne sont pas les même !";   
             }
@@ -50,34 +55,42 @@ if (isset($_POST["register"])){
     <title>S'enregister</title>
 </head>
 <body>
-    <form method="POST">
-<!-- NAME input -->
-<div class="form-outline mb-4">
-    <input type="text" id="form2Example1" name="name" class="form-control" />
-    <label class="form-label" for="form2Example1">Votre nom</label>
-</div>
-<!-- Password input -->
-<div class="form-outline mb-4">
-    <input type="password" id="form2Example2" class="form-control" name="password" />
-    <label class="form-label" for="form2Example2">Password</label>
-</div>
-<div class="form-outline mb-4">
-    <input type="password" id="form2Example2" class="form-control" name="password2" />
-    <label class="form-label" for="form2Example2">Password de nouveau</label>
-</div>
-<!-- Submit button -->
-<button type="submit" class="btn btn-primary btn-block mb-4" name="register">S'enregister</button>
-</div>
-<?php
-    if (isset($_GET['error'])) {
-    echo('<p style="color: red;">'.htmlentities($_GET['error'])."</p>\n");
-    unset($_GET['error']);
-    }
-?>
-</form>
-<div id="alert" class="alert alert-">
-</div>
-<a href="./home.php"> Retour Home page</a>
+<section class="vh-100 h-100">
+    <div class="mask d-flex align-items-center justify-content-center h-100 gradient-custom-3">
+        <h2 class="text-uppercase text-center mb-5">Vous Enregister</h2>
+        <form method="POST">
+            <?php
+                if (isset($_GET['error'])) {
+                echo('<div id="alert" class="alert alert-danger" role="alert">');
+                echo('<p style="color: red;">'.htmlentities($_GET['error'])."</p>\n");
+                echo('</div>');
+                unset($_GET['error']);
+                }
+            ?> 
+        <div class="p-4 bg-secondary text-white">
+            <!-- NAME input -->
+            <div class="form-outline mb-4">
+                <input type="text" id="form2Example1" name="name" class="form-control" />
+                <label class="form-label" for="form2Example1">Votre nom</label>
+            </div>
+            <!-- Password input -->
+            <div class="form-outline mb-4">
+                <input type="password" id="form2Example2" class="form-control" name="password" />
+                <label class="form-label" for="form2Example2">Password</label>
+            </div>
+            <div class="form-outline mb-4">
+                <input type="password" id="form2Example2" class="form-control" name="password2" />
+                <label class="form-label" for="form2Example2">Password de nouveau</label>
+            </div>
+            <!-- Submit button -->
+            <div class="d-flex flex-row bd-highlight mb-3">
+                <button type="submit" class="btn btn-primary btn-block mb-4" name="register">S'enregister</button>
+                <button class="btn btn-danger btn-block mb-4"> <a href="./home.php" class="link-light"> Retour Home page</a></button>
+            </div>
+        </div>
+        </form>
+    </div>        
+</section>
 </div>
 </body>
 </html>

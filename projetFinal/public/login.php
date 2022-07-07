@@ -1,27 +1,36 @@
 <?php  
 session_start();
-
 require_once("PDO.php");
-
 
 if(isset($_POST["submit"])){
     if((!empty($_POST['name'])) && !empty($_POST['password'])){
-        $sql = "SELECT * FROM users WHERE name=:name AND password=:password";
+
+        $name=htmlentities($_POST['name']);
+        $password=htmlentities($_POST['password']);
+        $hashedpassword=password_hash($password,  PASSWORD_DEFAULT);
+
+        
+        $sql = "SELECT * FROM users WHERE name=:name";
         $stat = $pdo->prepare($sql);
         $stat->execute([
-            ":name" => $_POST['name'],
-            ":password"=> $_POST['password'],
+            ":name" => $name,
         ]);
         $user= $stat->fetch(PDO::FETCH_ASSOC);
         $_SESSION["user"]=$user;
-        if($_SESSION['user']=== false){
-            $_GET['fail']= "L'utilisateur ou le mot de pass n'existe pas !";
-        }else{
-        header('Location: app.php');
-        }
+        var_dump($user);
+        if($user){
+            $userpassword=$user['password'];
+            if(password_verify($hashedpassword, $userpassword)) {   
+                header('Location: app.php');
+            }else{
+                $_GET['fail']= "le mot de pass n'est pas correct !";
+            }
     }else{
-           $_GET['error']= "Vous devez remplir les champs ! ";
+            $_GET['fail']= "L'utilisateur n'est pas correct !";
         }
+}else{
+           $_GET['error']= "Vous devez remplir les champs ! ";
+    }
 }
 ?>
 
@@ -42,20 +51,29 @@ if(isset($_POST["submit"])){
         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
         <div class="card" style="border-radius: 15px;">
             <div class="card-body p-5">
-            <h2 class="text-uppercase text-center mb-5">Vous Connecter</h2>
-
-            <?php
-                if (isset($_GET['error'])) {
-                    echo('<p style="color: red;">'.htmlentities($_GET['error'])."</p>\n");
-                    unset($_GET['error']);
-                }
-                if (isset($_GET['fail'])) {
-                    echo('<p style="color: red;">'.htmlentities($_GET['fail'])."</p>\n");
-                    unset($_GET['fail']);
-                }
-            ?>
-                <form method="POST">
-
+                <h2 class="text-uppercase text-center mb-5">Vous Connecter</h2>
+                <?php
+                    if(isset($_SESSION['register'])){
+                        echo('<div id="alert" class="alert alert-success" role="alert">');
+                        echo('<p style="color: green;">'.htmlentities($_SESSION['register'])."</p>\n");
+                        echo('</div>');
+                        unset($_SESSION['register']);
+                    }
+                    if (isset($_GET['error'])) {
+                        echo('<div id="alert" class="alert alert-danger" role="alert">');
+                        echo('<p style="color: red;">'.htmlentities($_GET['error'])."</p>\n");
+                        echo('</div>');
+                        unset($_GET['error']);
+                    }
+                    if (isset($_GET['fail'])) {
+                        echo('<div id="alert" class="alert alert-danger" role="alert">');
+                        echo('<p style="color: red;">'.htmlentities($_GET['fail'])."</p>\n");
+                        echo('</div>');
+                        unset($_GET['fail']);
+                    }
+                ?>
+            <form method="POST">
+            
                 <div class="form-outline mb-4">
                     <input  type="text" id="form3Example1cg" class="form-control form-control-lg" name="name"/>
                     <label class="form-label" for="form3Example1cg">Votre nom</label>
@@ -66,9 +84,11 @@ if(isset($_POST["submit"])){
                     <label class="form-label" for="form3Example4cg">Votre mot de pass</label>
 
                 </div>
-
-                    <button type="submit" name="submit">Se connecter</button>
-                </form>
+                <div class="d-flex flex-row bd-highlight mb-3">
+                    <button class="btn btn-primary btn-block mb-4 type="submit" name="submit">Se connecter</button>
+                    <button class="btn btn-danger btn-block mb-4"> <a href="./home.php" class="link-light"> Retour Home page</a></button>
+                </div>
+            </form>
             </div>
         </div>
         </div>
@@ -76,8 +96,5 @@ if(isset($_POST["submit"])){
     </div>
 </div>
 </section>
-</div>
-   <button> <a href="./home.php"> Retour Home page</a></button>
-</div>
 </body>
 </html>

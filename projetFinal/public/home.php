@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,16 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <title>Document</title>
+    <title>home</title>
 </head>
 <body>
 
     <h1 >Bienvenue Dans La Base de Données Des Tâches(Ou TODO List en Anglais)</h1>
-    <div class="">
-        <a href="./login.php" class="link-primary">Se Connecter</a> /
-        <a href="./register.php" class="link-danger">S'enregistrez</a>
+    <div class="d-flex flex-row">
+        <button class="btn btn-dark"><a href="./login.php" class="link-warning">Se Connecter</a></button>
+        <button class="btn btn-dark"><a href="./register.php" class="link-danger">S'enregistrez</a></button>
     </div>
-<div class="">Essayer <a href="./app.php">D'ajouter des données</a> sans vous connecter</div>
+
+<div class="alert alert-dark" role="alert">Essayer <a href="./app.php">D'ajouter des données</a> sans vous connecter</div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 </html>
