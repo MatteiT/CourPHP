@@ -8,10 +8,67 @@ if(!isset($_SESSION['user'])){
 }
 require("QuerySQL.php");
 
-if(isset($rows)){
-    var_dump($rows);
+if(isset($_POST["add"]))
+{
+    if(!empty(($_POST["task"]))){
+        $task= htmlentities($_POST["task"]);
+        $sql = "INSERT INTO tasks (title, user_id) VALUE (:title, :user_id)";
+        $stat = $pdo->prepare($sql);
+        $stat->execute([
+            ":title" => $task,
+            ":user_id" => $_SESSION['user']['user_id'],
+        ]);
+        $_SESSION['succès'] = "Felicitations encore une chose de plus à faire !!";
+                header("Location: app.php");
+                return;
+    }else{
+            $_SESSION['error'] = "Le Champ est vide !!";
+            header("Location: app.php");
+            return;
+    }
 }
 
+if(isset($_POST["delete"])) {
+        $sql = "DELETE FROM tasks WHERE task_id=:id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ":id" => $_POST["task_id"]
+        ]);
+        $_SESSION['supr']= "votre Tache est supprimé ! ";
+                header("Location: app.php");
+                return;
+}
+
+if(isset($_POST['SuprTable'])){
+        $sql = "DELETE FROM tasks WHERE user_id=:user_id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ":user_id" => $_SESSION['user']['user_id']
+        ]);
+        $_SESSION['SuprTable']= "Toutes Vos Taches sont supprimées ! ";
+        header("Location: app.php");
+        return;
+}
+
+if(isset($_POST['return'])){
+    session_destroy();
+    header("Location: home.php");
+}
+
+if(isset($_POST["cancel"])){
+    header("Location: app.php");
+}
+
+
+if (isset($_POST["update"]) && isset($_POST["task_id"])) {
+    $_SESSION["task_id"]=$_POST["task_id"];
+    header("Location: ./update.php");
+}
+
+
+
+$stmt= $pdo->query("SELECT * FROM tasks WHERE user_id={$_SESSION['user']['user_id']}");
+$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,11 +81,12 @@ if(isset($rows)){
 </head>
 <body>
   <h1>Bienvenue <?php echo strtoupper(htmlentities($_SESSION['user']['name'])) ?></h1>
-<section>
+<section class="container">
   <div class="row d-flex justify-content-center">
         <div class="card" id="list1" style="border-radius: 0.75rem; background-color: #eff1f2; ">
             <h2 class="h1 text-center mt-3 mb-4 pb-3 text-primary">Mes Taches</h2>
             <?php  
+
               if(isset($_SESSION['supr'])){
                 echo('<div id="alert" class="alert alert-danger" role="alert">');
                 echo('<p style="color: red;">'.htmlentities($_SESSION['supr'])."</p>\n");
@@ -57,20 +115,19 @@ if(isset($rows)){
             <form method="POST">
                 <input type="text"class="form-control form-control-lg" id="exampleFormControlInput1" placeholder="Nouvelle Tâche..." name="task"/> 
                 <?php 
-                  if(isset($_SESSION['error']))
-                  {
+                  if(isset($_SESSION['error'])){
                     echo('<div id="alert" class="alert alert-danger" role="alert">');
                     echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
                     echo('</div>');
                     unset($_SESSION['error']);
                   }
                 ?>
-                <button type="submit" class="btn btn-primary" name="submit">Ajouter</button>
+                <button type="submit" class="btn btn-primary" name="add">Ajouter</button>
             </form>
         <?php 
         echo "<table border='1' class='table'>";
         if(!isset($rows)){
-          $_SESSION['error'] = "Le Champ est vide !!";
+          $rows=null;
           header("Location: app.php");
         } else{
         foreach($rows as $row){
@@ -106,7 +163,7 @@ if(isset($rows)){
     <div class="d-flex flex-row bd-highlight mb-3">
       <!-- <form  method="post">
       <button class="btn btn-danger btn-block mb-4" name="return"> <a href="./home.php" class="link-light"> Retour Home page</a></button> -->
-      <a href="./logout.php">se déconnecter</a>
+      <button class="btn btn-danger"><a class="link-light" href="./logout.php">se déconnecter</a></button>
     </form>
     </div>
 </section>

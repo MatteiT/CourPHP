@@ -2,8 +2,10 @@
 session_start();
 require_once("PDO.php");
 
-if(isset($_POST["submit"])){
-    if((!empty($_POST['name'])) && !empty($_POST['password'])){
+if(isset($_POST["submit"]))
+{
+    if((!empty($_POST['name'])) && !empty($_POST['password']))
+    {
 
         $name=htmlentities($_POST['name']);
         $password=htmlentities($_POST['password']);
@@ -15,21 +17,27 @@ if(isset($_POST["submit"])){
             ":name" => $name,
         ]);
         $user= $stat->fetch(PDO::FETCH_ASSOC);
-        if($user){
+    if($user){
             $userpassword=$user['password'];
             if(password_verify($password, $userpassword)) { 
                 $_SESSION["user"] = $user;
                 header('Location: app.php');
                 return;
             }else{
-                $_GET['fail']= "le mot de pass n'est pas correct !";
+                $_SESSION['fail']= "le mot de passe n'est pas correct !";
+                header('Location: login.php');
+                return;
             }
     }else{
-            $_GET['fail']= "L'utilisateur n'est pas correct !";
-        }
+            $_SESSION['fail']= "L'utilisateur n'est pas correct !";
+            header('Location: login.php');
+            return;
+            }
 }else{
-        $_GET['error']= "Vous devez remplir les champs ! ";
-    }
+        $_SESSION['error']= "Vous devez remplir les champs ! ";
+        header('Location: login.php');
+        return;
+            }
 }
 ?>
 
@@ -58,17 +66,17 @@ if(isset($_POST["submit"])){
                         echo('</div>');
                         unset($_SESSION['register']);
                     }
-                    if (isset($_GET['error'])) {
+                    if (isset($_SESSION['error'])) {
                         echo('<div id="alert" class="alert alert-danger" role="alert">');
-                        echo('<p style="color: red;">'.htmlentities($_GET['error'])."</p>\n");
+                        echo('<p style="color: red;">'.htmlentities($_SESSION['error'])."</p>\n");
                         echo('</div>');
-                        unset($_GET['error']);
+                        unset($_SESSION['error']);
                     }
-                    if (isset($_GET['fail'])) {
+                    if (isset($_SESSION['fail'])) {
                         echo('<div id="alert" class="alert alert-danger" role="alert">');
-                        echo('<p style="color: red;">'.htmlentities($_GET['fail'])."</p>\n");
+                        echo('<p style="color: red;">'.htmlentities($_SESSION['fail'])."</p>\n");
                         echo('</div>');
-                        unset($_GET['fail']);
+                        unset($_SESSION['fail']);
                     }
                 ?>
             <form method="POST">

@@ -2,9 +2,6 @@
 session_start();
 require_once("pdo.php");
 
-var_dump($_SESSION);
-
-
 if(isset($_POST["update"])){
     if(!empty(trim($_POST["task"])))
     {
@@ -17,7 +14,7 @@ if(isset($_POST["update"])){
           ":task_id"=>$_SESSION["task_id"],
           ]);  
           
-      $_SESSION['modd'] = "La Tache est modifiée";
+      $_SESSION['succès'] = "La Tache est modifiée";
       unset($_SESSION['task_id']);
       header("Location: app.php");
       return;
@@ -29,7 +26,9 @@ if(isset($_POST["update"])){
 }
 
 if(isset($_POST["cancel"])){
+    $_SESSION['error']='vous avez annulé la modification';
     header("Location: app.php");
+    return;
 }
 
 $stmt = $pdo->prepare("SELECT * FROM tasks WHERE task_id = :task_id");
@@ -37,7 +36,6 @@ $stmt->execute([
   ":task_id" => $_SESSION["task_id"]
   ]);
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
-var_dump($row);
 
 ?>
 
@@ -59,11 +57,12 @@ var_dump($row);
     unset($_SESSION['error']);
     }
 ?>
-
+<div class="container">
 <form method="post">
   <p>la Tache:<input type="text" name="task" value="<?= $row["title"] ?>"></p>
   <p><input type="submit" name="update" value="modifier" /></p>
-  <p><input type="submit" name="update" value="cancel" /></p>
+  <p><input type="submit" name="cancel" value="cancel" /></p>
 </form>
+</div>
 </body>
 </html>

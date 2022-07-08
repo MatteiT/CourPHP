@@ -28,14 +28,15 @@ if (isset($_POST["register"])){
                     ":name" => $name,
                     ":password" => $hashedpassword,
                     ]);
-                    $_SESSION['register']= "Felicitation pour votre insciption Bienvenue dans la TODO APP !";
                     header("Location: login.php");
                     }       
         }else{
-                $_GET['error'] = "Les Mots de Pass ne sont pas les même !";   
+                $_GET['error'] = "Les Mots de Pass ne sont pas les même !";
+                header("Location: register.php");
             }
     }else{
         $_GET['error'] = "Les champs ne sont pas remplis";
+        header("Location: register.php");
     }
 }
 
