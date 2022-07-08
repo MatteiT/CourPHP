@@ -51,11 +51,7 @@ if (isset($_POST["update"]) && isset($_POST["task_id"])) {
     $_SESSION["task_id"]=$_POST["task_id"];
     header("Location: ./update.php");
 }
-if(($_SESSION['user'])){
-    var_dump($_SESSION);
-}else{
-    die('<p style="color: white; background-color: red;">Accès Refusé Sans Insciption</p>');
-}
+
 
 
 $stmt= $pdo->query("SELECT * FROM tasks WHERE user_id={$_SESSION['user']['user_id']}");

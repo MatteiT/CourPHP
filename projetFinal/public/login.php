@@ -15,12 +15,12 @@ if(isset($_POST["submit"])){
             ":name" => $name,
         ]);
         $user= $stat->fetch(PDO::FETCH_ASSOC);
-        $_SESSION["user"]=$user;
-        var_dump($user);
         if($user){
-        $userpassword=$user['password'];
+            $userpassword=$user['password'];
             if(password_verify($password, $userpassword)) { 
+                $_SESSION["user"] = $user;
                 header('Location: app.php');
+                return;
             }else{
                 $_GET['fail']= "le mot de pass n'est pas correct !";
             }

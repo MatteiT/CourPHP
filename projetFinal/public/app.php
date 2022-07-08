@@ -1,6 +1,11 @@
 <?php 
 session_start();
 require_once("PDO.php");
+
+if(!isset($_SESSION['user'])){
+  die('<p style="color: white; background-color: red;">Accès Refusé Sans Insciption</p>');
+  return;
+}
 require("QuerySQL.php");
 
 if(isset($rows)){
@@ -99,8 +104,10 @@ if(isset($rows)){
     </div>
   </div>
     <div class="d-flex flex-row bd-highlight mb-3">
-      <form  method="post">
-      <button class="btn btn-danger btn-block mb-4" name="return"> <a href="./home.php" class="link-light"> Retour Home page</a></button></form>
+      <!-- <form  method="post">
+      <button class="btn btn-danger btn-block mb-4" name="return"> <a href="./home.php" class="link-light"> Retour Home page</a></button> -->
+      <a href="./logout.php">se déconnecter</a>
+    </form>
     </div>
 </section>
 

@@ -1,9 +1,9 @@
 <?php 
 
-if(isset($_POST['app'])){
-    session_destroy();
-    header("Location: app.php");
-}
+// if(isset($_POST['app'])){
+//     session_destroy();
+//     header("Location: app.php");
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
