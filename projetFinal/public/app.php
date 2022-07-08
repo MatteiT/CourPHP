@@ -3,21 +3,10 @@ session_start();
 require_once("PDO.php");
 require("QuerySQL.php");
 
-if(($_SESSION['user'])===false){
-  die('<p style="color: white; background-color: red;">Accès Refusé Sans Insciption</p>');
-}else{
-    var_dump($_SESSION);
-}
-
 if(isset($rows)){
-var_dump($rows);
+    var_dump($rows);
 }
 
-if(isset($_POST['return'])){
-  session_destroy();
-  header("Location: home.php");
-  die();
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,17 +24,23 @@ if(isset($_POST['return'])){
         <div class="card" id="list1" style="border-radius: 0.75rem; background-color: #eff1f2; ">
             <h2 class="h1 text-center mt-3 mb-4 pb-3 text-primary">Mes Taches</h2>
             <?php  
-              if(isset($_GET['supr'])){
+              if(isset($_SESSION['supr'])){
                 echo('<div id="alert" class="alert alert-danger" role="alert">');
-                echo('<p style="color: red;">'.htmlentities($_GET['supr'])."</p>\n");
+                echo('<p style="color: red;">'.htmlentities($_SESSION['supr'])."</p>\n");
                 echo('</div>');
-                unset($_GET['supr']);
+                unset($_SESSION['supr']);
               }
-              if(isset($_GET['succès'])){
-                echo('<div id="alert" class="alert alert-success" role="alert">');
-                echo('<p style="color: green;">'.htmlentities($_GET['succès'])."</p>\n");
+              if(isset($_SESSION['SuprTable'])){
+                echo('<div id="alert" class="alert alert-danger" role="alert">');
+                echo('<p style="color: red;">'.htmlentities($_SESSION['SuprTable'])."</p>\n");
                 echo('</div>');
-                unset($_GET['succès']);
+                unset($_SESSION['SuprTable']);
+              }
+              if(isset($_SESSION['succès'])){
+                echo('<div id="alert" class="alert alert-success" role="alert">');
+                echo('<p style="color: green;">'.htmlentities($_SESSION['succès'])."</p>\n");
+                echo('</div>');
+                unset($_SESSION['succès']);
               }
               if(isset($_SESSION['modd'])){
                 echo('<div id="alert" class="alert alert-warning" role="alert">');
@@ -57,13 +52,6 @@ if(isset($_POST['return'])){
             <form method="POST">
                 <input type="text"class="form-control form-control-lg" id="exampleFormControlInput1" placeholder="Nouvelle Tâche..." name="task"/> 
                 <?php 
-                  if(isset($_GET['error']))
-                  {
-                    echo('<div id="alert" class="alert alert-danger" role="alert">');
-                    echo('<p style="color: red;">'.htmlentities($_GET['error'])."</p>\n");
-                    echo('</div>');
-                    unset($_GET['error']);
-                  }
                   if(isset($_SESSION['error']))
                   {
                     echo('<div id="alert" class="alert alert-danger" role="alert">');
@@ -104,6 +92,9 @@ if(isset($_POST['return'])){
         echo "</table>";
       }
         ?>
+      <form method="POST">
+        <button type="submit" class="btn btn-danger" name="SuprTable">Supprimer TOUTES LES TACHES !</button>
+      </form>
         </div>
     </div>
   </div>

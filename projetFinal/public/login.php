@@ -9,7 +9,6 @@ if(isset($_POST["submit"])){
         $password=htmlentities($_POST['password']);
         $hashedpassword=password_hash($password,  PASSWORD_DEFAULT);
 
-        
         $sql = "SELECT * FROM users WHERE name=:name";
         $stat = $pdo->prepare($sql);
         $stat->execute([
@@ -19,8 +18,8 @@ if(isset($_POST["submit"])){
         $_SESSION["user"]=$user;
         var_dump($user);
         if($user){
-            $userpassword=$user['password'];
-            if(password_verify($hashedpassword, $userpassword)) {   
+        $userpassword=$user['password'];
+            if(password_verify($password, $userpassword)) { 
                 header('Location: app.php');
             }else{
                 $_GET['fail']= "le mot de pass n'est pas correct !";
@@ -29,7 +28,7 @@ if(isset($_POST["submit"])){
             $_GET['fail']= "L'utilisateur n'est pas correct !";
         }
 }else{
-           $_GET['error']= "Vous devez remplir les champs ! ";
+        $_GET['error']= "Vous devez remplir les champs ! ";
     }
 }
 ?>

@@ -12,17 +12,16 @@ if (isset($_POST["register"])){
             $hashedpassword= password_hash($password,  PASSWORD_DEFAULT);
             $name=htmlentities($_POST['name']);
 
-            $sql = "SELECT * FROM users WHERE name=:name AND password=:password";
+            $sql = "SELECT * FROM users WHERE name=:name";
             $stat = $pdo->prepare($sql);
             $stat->execute([
                 ":name" => $name,
-                ":password"=> $password,
             ]);
             $user= $stat->fetch(PDO::FETCH_ASSOC);
-            $_SESSION["user"]=$user;
-
-                if($user=== false)
-                {            
+                if($user)
+                {     
+                        $_GET['error']= "L'utilisateur existe déjà dans la base de données";      
+                }else{
                     $sql = "INSERT INTO users (name, password) VALUE (:name, :password)";
                     $stmt = $pdo->prepare($sql);
                     $stmt->execute([
@@ -31,9 +30,6 @@ if (isset($_POST["register"])){
                     ]);
                     $_SESSION['register']= "Felicitation pour votre insciption Bienvenue dans la TODO APP !";
                     header("Location: login.php");
-                    exit();
-                }else{
-                        $_GET['error']= "L'utilisateur existe déjà dans la base de données";
                     }       
         }else{
                 $_GET['error'] = "Les Mots de Pass ne sont pas les même !";   

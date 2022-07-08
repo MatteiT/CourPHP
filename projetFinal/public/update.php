@@ -8,11 +8,12 @@ var_dump($_SESSION);
 if(isset($_POST["update"])){
     if(!empty(trim($_POST["task"])))
     {
+      $task= htmlentities($_POST["task"]);
       $sql = "UPDATE tasks SET title=:title WHERE task_id=:task_id";
         echo ("<pre>" . $sql . "</pre>");
       $stat = $pdo->prepare($sql);
       $stat->execute([
-          ":title"=>$_POST["task"],
+          ":title"=>$task,
           ":task_id"=>$_SESSION["task_id"],
           ]);  
           
@@ -25,6 +26,10 @@ if(isset($_POST["update"])){
       header("Location: update.php?todos_id=".$_REQUEST['id']);
       return;
     }
+}
+
+if(isset($_POST["cancel"])){
+    header("Location: app.php");
 }
 
 $stmt = $pdo->prepare("SELECT * FROM tasks WHERE task_id = :task_id");
@@ -58,6 +63,7 @@ var_dump($row);
 <form method="post">
   <p>la Tache:<input type="text" name="task" value="<?= $row["title"] ?>"></p>
   <p><input type="submit" name="update" value="modifier" /></p>
+  <p><input type="submit" name="update" value="cancel" /></p>
 </form>
 </body>
 </html>
