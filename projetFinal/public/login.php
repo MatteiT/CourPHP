@@ -74,13 +74,13 @@ if(isset($_POST["submit"])){
             <form method="POST">
             
                 <div class="form-outline mb-4">
-                    <input  type="text" id="form3Example1cg" class="form-control form-control-lg" name="name"/>
                     <label class="form-label" for="form3Example1cg">Votre nom</label>
+                    <input  type="text" id="form3Example1cg" class="form-control form-control-lg" name="name"/>
                 </div>
 
                 <div class="form-outline mb-4">
-                    <input type="password" id="form3Example4cg" class="form-control form-control-lg" name="password" />
                     <label class="form-label" for="form3Example4cg">Votre mot de pass</label>
+                    <input type="password" id="form3Example4cg" class="form-control form-control-lg" name="password" />
 
                 </div>
                 <div class="d-flex flex-row bd-highlight mb-3">
