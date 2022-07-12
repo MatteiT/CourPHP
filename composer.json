@@ -6,5 +6,7 @@
             "email": "tristan.mattei@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "symfony/routing": "^6.1"
+    }
 }

@@ -1,5 +1,6 @@
 <?php 
 session_start();
+
 require_once("PDO.php");
 require_once("QuerySQL.php");
 

@@ -1,19 +1,18 @@
 <?php 
 session_start();
 require_once("pdo.php");
+var_dump($_SESSION);
 
 if(isset($_POST["update"])){
     if(!empty(trim($_POST["task"])))
     {
       $task= htmlentities($_POST["task"]);
       $sql = "UPDATE tasks SET title=:title WHERE task_id=:task_id";
-        echo ("<pre>" . $sql . "</pre>");
       $stat = $pdo->prepare($sql);
       $stat->execute([
           ":title"=>$task,
           ":task_id"=>$_SESSION["task_id"],
           ]);  
-          
       $_SESSION['succès'] = "La Tache est modifiée";
       unset($_SESSION['task_id']);
       header("Location: app.php");
