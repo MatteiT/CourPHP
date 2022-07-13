@@ -15,26 +15,14 @@ abstract class Véhicule{
         $this->price=$price;
 
     }
-    public function getModel()
-    {
-        return $this->model;
-    }
-    public function getYear(){
-        return $this->year;
-    }
-    public function getPrice(){
-        return $this->price;
-    }
-    public function setModel($model)
-    {
-        $this->model= $model;
-    }
-    public function setYear($year){
-        $this->year = $year;
-    }
-    public function setPrice($price){
-        $this->price = $price;
-    }
+    public function getModel(){return $this->model;}
+    public function getYear(){return $this->year;}
+    public function getPrice(){return $this->price;}
+    
+    public function setModel($model){$this->model= $model;}
+    public function setYear($year){$this->year = $year;}
+    public function setPrice($price){$this->price = $price;}
+
     abstract public function démarrer() ;
     abstract public function accelérer() ;
 
