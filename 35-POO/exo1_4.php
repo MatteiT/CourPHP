@@ -10,7 +10,6 @@ abstract class Véhicule{
     public function __construct($model, $year, $price)
     {
         self::$matricule++;
-        // $this->matricule=self::$matricule;
         $this->year=$year;
         $this->model=$model;
         $this->price=$price;
@@ -36,7 +35,6 @@ abstract class Véhicule{
     public function setPrice($price){
         $this->price = $price;
     }
- 
     abstract public function démarrer() ;
     abstract public function accelérer() ;
 
